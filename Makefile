@@ -1,8 +1,9 @@
 
-CFLAGS=-Werror -Wextra -Wall 
+CFLAGS=-Werror -Wextra -Wall -g -fsanitize=address
 NAME=minishell
 
-SRC= main.c
+SRC= main.c\
+	utils.c\
 
 OBJ= ${SRC:%.c=%.o}
 
@@ -17,6 +18,7 @@ clean:
 	rm -f ${OBJ}
 
 fclean: clean
+	./libft/ make fclean
 	/bin/rm -f $(NAME)
 
 re: fclean all

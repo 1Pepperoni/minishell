@@ -36,6 +36,7 @@ SRC = ft_isalpha.c \
 	  ft_putnbr_fd.c \
 	  gnl/get_next_line.c\
 	  gnl/get_next_line_utils.c\
+	  ft_basic_split.c\
 
 BONUS_SRC = ft_lstnew.c \
 			ft_lstadd_front.c \
