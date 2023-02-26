@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pory <pory@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 20:32:40 by pory              #+#    #+#             */
-/*   Updated: 2023/02/22 15:29:14 by pory             ###   ########.fr       */
+/*   Updated: 2023/02/24 16:11:31 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,17 @@ typedef struct s_token_list
 {
 	t_token_type		token;
 	char				*data;
+	struct s_token_list	*previous;
 	struct s_token_list	*next;
 }					t_token_list;
+
+// typedef struct s_token_lst_elem
+// {
+// 	t_token_type		token;
+// 	char				*data;
+// 	struct s_token_lst_elem	*previous;
+// 	struct s_token_lst_elem	*next;
+// }					t_token_lst_elem;
 
 t_token_list	*ft_token_lstnew(t_token_type token_type, char *str);
 void			ft_token_lstadd_back(t_token_list **lst, t_token_list *new);
