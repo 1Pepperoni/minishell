@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pory <pory@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 20:32:40 by pory              #+#    #+#             */
-/*   Updated: 2023/02/24 16:11:31 by ory              ###   ########.fr       */
+/*   Updated: 2023/02/26 21:10:59 by pory             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,9 @@ typedef struct s_token_list
 t_token_list	*ft_token_lstnew(t_token_type token_type, char *str);
 void			ft_token_lstadd_back(t_token_list **lst, t_token_list *new);
 t_token_list	*ft_token_lstlast(t_token_list *lst);
+
+void	check_unexpected_token(t_token_list *token_list);
+int		unexpected_token1(t_token_list *token_list);
+int		unexpected_token2(t_token_list *token_list);
 
 #endif

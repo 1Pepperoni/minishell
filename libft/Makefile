@@ -67,7 +67,7 @@ clean :
 	$(RM) $(OBJ) $(BONUS_OBJ)
 
 fclean : clean
-		$(RM) $(NAME) 
+		$(RM) $(NAME)
 
 re : fclean all
 

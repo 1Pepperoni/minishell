@@ -1,9 +1,10 @@
 
-CFLAGS=-Werror -Wextra -Wall -g -fsanitize=address
+CFLAGS=-Werror -Wextra -Wall #-g -fsanitize=address
 NAME=minishell
 
 SRC= main.c\
 	utils.c\
+	check_unexpected_token.c\
 
 OBJ= ${SRC:%.c=%.o}
 
@@ -18,7 +19,6 @@ clean:
 	rm -f ${OBJ}
 
 fclean: clean
-	./libft/ make fclean
 	/bin/rm -f $(NAME)
 
 re: fclean all

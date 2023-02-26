@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pory <pory@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 20:34:07 by pory              #+#    #+#             */
-/*   Updated: 2023/02/24 16:56:10 by ory              ###   ########.fr       */
+/*   Updated: 2023/02/26 23:11:34 by pory             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*make_new_str(char *str)
 	new_str = malloc(sizeof(char) * (how_many_spaces_add(str) + ft_strlen(str) + 1));
 	while (str[i])
 	{
-		if (str[i] == '>' && str[i + 1] == '>')
+		if (str[i] == '>' && str[i + 1] == '>' && (str[i + 2] != '>' || str[i + 2] != '<'))
 		{
 			new_str[j++] = ' ';
 			new_str[j++] = '>';
@@ -88,7 +88,7 @@ char	*make_new_str(char *str)
 			i = i + 2;
 			//j++;
 		}
-		if (str[i] == '<' && str[i + 1] == '<')
+		if (str[i] == '<' && str[i + 1] == '<' && (str[i + 2] != '>' || str[i + 2] != '<'))
 		{
 			new_str[j++] = ' ';
 			new_str[j++] = '<';
@@ -97,14 +97,14 @@ char	*make_new_str(char *str)
 			i = i + 2;
 			//j++;
 		}
-		if (str[i] == '>')
+		if (str[i] == '>' && (str[i + 1] != '>' || str[i + 1] != '<'))
 		{
 			new_str[j++] = ' ';
 			new_str[j++] = '>';
 			new_str[j++] = ' ';
 			i++;
 		}
-		if (str[i] == '<')
+		if (str[i] == '<' && (str[i + 1] != '>' || str[i + 1] != '<'))
 		{
 			new_str[j++] = ' ';
 			new_str[j++] = '<';
@@ -145,13 +145,40 @@ void	check_impair_quotes(char *str)
 	}
 	if (!(is_nb_pair(q_simple)))
 	{
-		printf("quotes error\n");
+		printf("minishell: syntax error near unexpected token `''\n");
+		system("leaks minishell");
 		exit (1);
 	}
 	if (!(is_nb_pair(q_double)))
 	{
-		printf("quotes error\n");
+		printf("minishell: syntax error near unexpected token `%c'\n", '"');
+		system("leaks minishell");
 		exit (1);
+	}
+}
+
+void deleteTokenList(t_token_list *head) {
+    t_token_list *current = head;
+    t_token_list *next;
+
+    while (current != NULL) {
+        next = current->next;
+        free(current->data);
+        free(current);
+        current = next;
+    }
+}
+
+void	delete_list(t_token_list *token_list)
+{
+	t_token_list *tmp;
+
+	tmp = token_list;
+	while (token_list)
+	{
+		tmp = token_list->next;
+		free (token_list);
+		token_list = tmp;
 	}
 }
 
@@ -164,6 +191,8 @@ void	prompt(void)
 	int		i;
 	t_token_list	*tmp;
 
+	t_token_list	*tmp_for_print;
+
 	rl_initialize ();
 	while ((input = readline("minishell> ")))
 	{
@@ -171,6 +200,7 @@ void	prompt(void)
 		if (check_unspaced_followed_pipe(input))
 		{
 			free (input);
+			system("leaks minishell");
 			exit (0);
 		}
 		//str = malloc(sizeof(char) * how_many_spaces_add(input));
@@ -186,18 +216,26 @@ void	prompt(void)
 			ft_token_lstadd_back(&token_list, tmp);
 			//printf("tab[%d] = %s\n", i, tab[i]);
 		}
-		while (token_list)
+		//check_unexpected_token(token_list);
+
+		tmp_for_print = token_list;
+		while (tmp_for_print)
 		{
-			printf("--> %s\n", token_list->data);
-			token_list = token_list->next;
+			printf("--> %s\n", tmp_for_print->data);
+			tmp_for_print = tmp_for_print->next;
 		}
+		
 		printf("new = %s\n", str);
 		free(input);
 		free(str);
+		//delete_list(token_list);
+		system("leaks minishell");
+		exit (0);
 	}
 }
 
 int	main()
 {
 	prompt();
+	system("leaks minishell");
 }
