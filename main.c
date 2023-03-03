@@ -6,7 +6,7 @@
 /*   By: pory <pory@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 20:34:07 by pory              #+#    #+#             */
-/*   Updated: 2023/02/26 23:11:34 by pory             ###   ########.fr       */
+/*   Updated: 2023/03/03 16:06:01 by pory             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ int	how_many_spaces_add(char *str)
 	nb = 0;
 	while (str[i] && str[i + 1])
 	{
-		if (str[i] == '>' && str[i + 1] == '>')
-			nb = nb + 2;
-		else if (str[i] == '<' && str[i + 1] == '<')
-			nb = nb + 2;
-		else if (str[i] == '>')
+		if (str[i] == '>')
 			nb = nb + 2;
 		else if (str[i] == '<')
+			nb = nb + 2;
+		else if (str[i] == '|')
+			nb = nb + 2;
+		else if (str[i] == '$' && str[i + 1] == '?')
+			nb = nb + 2;
+		else if (str[i] == '$')
 			nb = nb + 2;
 		i++;
 	}
@@ -48,26 +50,6 @@ int	check_unspaced_followed_pipe(char *str)
 	return (0);
 }
 
-// int	check_spaced_redirections(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while(str[i])
-// 	{
-// 		if (str[i] == '>' && (str[i + 1] == ' ' || str[i + 1] == '\t') && str[i + 2] == '>') 
-// 			return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-// int	redirections_check(char *str)
-// {
-// 	if (check_unspaced_followed_pipe(str))
-// 		return (1);
-// }
-
 char	*make_new_str(char *str)
 {
 	char	*new_str;
@@ -79,41 +61,64 @@ char	*make_new_str(char *str)
 	new_str = malloc(sizeof(char) * (how_many_spaces_add(str) + ft_strlen(str) + 1));
 	while (str[i])
 	{
-		if (str[i] == '>' && str[i + 1] == '>' && (str[i + 2] != '>' || str[i + 2] != '<'))
+		while (str[i])
 		{
-			new_str[j++] = ' ';
-			new_str[j++] = '>';
-			new_str[j++] = '>';
-			new_str[j++] = ' ';
-			i = i + 2;
-			//j++;
-		}
-		if (str[i] == '<' && str[i + 1] == '<' && (str[i + 2] != '>' || str[i + 2] != '<'))
-		{
-			new_str[j++] = ' ';
-			new_str[j++] = '<';
-			new_str[j++] = '<';
-			new_str[j++] = ' ';
-			i = i + 2;
-			//j++;
-		}
-		if (str[i] == '>' && (str[i + 1] != '>' || str[i + 1] != '<'))
-		{
-			new_str[j++] = ' ';
-			new_str[j++] = '>';
-			new_str[j++] = ' ';
+			if (str[i] == '>' && str[i + 1] == '>')
+			{
+				new_str[j++] = ' ';
+				new_str[j++] = '>';
+				new_str[j++] = '>';
+				new_str[j++] = ' ';
+				i = i + 2;
+				break ;
+			}
+			if (str[i] == '<' && str[i + 1] == '<')
+			{
+				new_str[j++] = ' ';
+				new_str[j++] = '<';
+				new_str[j++] = '<';
+				new_str[j++] = ' ';
+				i = i + 2;
+				break ;
+			}
+			if (str[i] == '<' && str[i + 1] == '>')
+			{
+				new_str[j++] = ' ';
+				new_str[j++] = '<';
+				new_str[j++] = '>';
+				new_str[j++] = ' ';
+				i = i + 2;
+				break ;
+			}
+			if (str[i] == '>')
+			{
+				new_str[j++] = ' ';
+				new_str[j++] = '>';
+				new_str[j++] = ' ';
+				i++;
+				break ;
+			}
+			if (str[i] == '<')
+			{
+				new_str[j++] = ' ';
+				new_str[j++] = '<';
+				new_str[j++] = ' ';
+				i++;
+				break ;
+			}
+			if (str[i] == '|')
+			{
+				new_str[j++] = ' ';
+				new_str[j++] = '|';
+				new_str[j++] = ' ';
+				i++;
+				break ;
+			}
+			new_str[j] = str[i]; 
 			i++;
+			j++;
+			break ;
 		}
-		if (str[i] == '<' && (str[i + 1] != '>' || str[i + 1] != '<'))
-		{
-			new_str[j++] = ' ';
-			new_str[j++] = '<';
-			new_str[j++] = ' ';
-			i++;
-		}
-		new_str[j] = str[i]; 
-		i++;
-		j++;
 	}
 	new_str[j] = '\0';
 	return (new_str);
@@ -127,7 +132,7 @@ int	is_nb_pair(unsigned int	nb)
 		return (1);
 }
 
-void	check_impair_quotes(char *str)
+int	check_impair_quotes(char *str)
 {
 	int	q_double;
 	int	q_simple;
@@ -146,15 +151,18 @@ void	check_impair_quotes(char *str)
 	if (!(is_nb_pair(q_simple)))
 	{
 		printf("minishell: syntax error near unexpected token `''\n");
-		system("leaks minishell");
-		exit (1);
+		return (1);
+		//system("leaks minishell");
+		//exit (1);
 	}
 	if (!(is_nb_pair(q_double)))
 	{
 		printf("minishell: syntax error near unexpected token `%c'\n", '"');
-		system("leaks minishell");
-		exit (1);
+		return (1);
+		//system("leaks minishell");
+		//exit (1);
 	}
+	return (0);
 }
 
 void deleteTokenList(t_token_list *head) {
@@ -200,12 +208,15 @@ void	prompt(void)
 		if (check_unspaced_followed_pipe(input))
 		{
 			free (input);
-			system("leaks minishell");
-			exit (0);
+			printf("minishell: syntax error near unexpected token `|'\n");
+			continue ;
+			//system("leaks minishell");
+			//exit (0);
 		}
 		//str = malloc(sizeof(char) * how_many_spaces_add(input));
 		//printf("input = %s\n", input);
-		check_impair_quotes(input);
+		if (check_impair_quotes(input))
+			continue ;
 		str = make_new_str(input);
 		tab = ft_basic_split(str);
 		i = 0;
@@ -229,8 +240,8 @@ void	prompt(void)
 		free(input);
 		free(str);
 		//delete_list(token_list);
-		system("leaks minishell");
-		exit (0);
+		//system("leaks minishell");
+		//exit (0);
 	}
 }
 
