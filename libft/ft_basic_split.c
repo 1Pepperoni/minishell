@@ -6,7 +6,7 @@
 /*   By: pory <pory@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 05:17:49 by pory              #+#    #+#             */
-/*   Updated: 2023/02/22 08:41:42 by pory             ###   ########.fr       */
+/*   Updated: 2023/03/08 03:57:37 by pory             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static char	**get_tab(char **tab, char const *s, int nbstrs)
 		}
 		while ((str[i] != ' ' && str[i] != '\t') && str[i])
 			i++;
-		tab[j++] = get_str(s, (i - (i - k)), (i - k));
+		tab[j++] = get_str(str, (i - (i - k)), (i - k));
 		k = i;
 	}
 	tab[j] = NULL;

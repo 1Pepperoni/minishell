@@ -6,7 +6,7 @@
 /*   By: pory <pory@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 17:22:12 by pory              #+#    #+#             */
-/*   Updated: 2023/03/06 20:49:14 by pory             ###   ########.fr       */
+/*   Updated: 2023/03/08 04:27:54 by pory             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,5 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	**ft_basic_split(char const *s);
 int		ft_strcmp(char *s1, char *s2);
+char	*ft_strcpy(char *dest, char *src);
 #endif

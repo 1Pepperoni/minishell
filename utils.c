@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pory <pory@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 05:09:58 by pory              #+#    #+#             */
-/*   Updated: 2023/02/24 16:21:27 by ory              ###   ########.fr       */
+/*   Updated: 2023/03/08 04:29:29 by pory             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_token_list	*ft_token_lstnew(t_token_type token_type, char *str)
 	if (!new_element)
 		return (NULL);
 	new_element->token = token_type;
+	// new_element->data = ft_strjoin(new_element->data, str);
 	new_element->data = str;
 	new_element->previous = NULL;
 	new_element->next = NULL;
