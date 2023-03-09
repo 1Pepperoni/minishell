@@ -8,9 +8,13 @@ SRC= main.c\
 
 OBJ= ${SRC:%.c=%.o}
 
+LIBR = -lreadline -L /Users/$(USER)/.brew/Cellar/readline/8.2.1/lib
+LIBPATH = ~/.brew/Cellar/readline/8.2.1/lib
+
 $(NAME): ${OBJ}
 	@make -C ./libft/
-	gcc $(OBJ) -o $(NAME) $(CFLAGS) ./libft/libft.a -lreadline
+	gcc $(OBJ) $(CFLAGS) ./libft/libft.a ./libreadline.a -lreadline -lncurses -o $(NAME)
+	
 
 all:	${NAME}
 

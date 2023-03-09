@@ -6,7 +6,7 @@
 /*   By: pory <pory@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 20:32:40 by pory              #+#    #+#             */
-/*   Updated: 2023/03/07 23:58:44 by pory             ###   ########.fr       */
+/*   Updated: 2023/03/09 20:40:41 by pory             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
+#include  <signal.h>
 
 typedef enum s_token_type
 {
@@ -54,7 +55,9 @@ void			ft_token_lstadd_back(t_token_list **lst, t_token_list *new);
 t_token_list	*ft_token_lstlast(t_token_list *lst);
 
 int	check_unexpected_token(t_token_list *token_list);
+void	prompt(void);
 // int		unexpected_token1(t_token_list *token_list);
 // int		unexpected_token2(t_token_list *token_list);
+void    rl_replace_line(char *str, int i);
 
 #endif
