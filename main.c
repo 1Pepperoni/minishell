@@ -6,7 +6,7 @@
 /*   By: pory <pory@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 20:34:07 by pory              #+#    #+#             */
-/*   Updated: 2023/03/09 20:52:45 by pory             ###   ########.fr       */
+/*   Updated: 2023/03/10 23:19:19 by pory             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,24 @@ void	prompt(void)
 	t_token_list	*tmp;
 
 	rl_initialize ();
-	while ((input = readline("minishell> ")))
+	while (1)
 	{
+		input = readline("minishell> ");
+		if (input == NULL)
+		{
+			//printf("\e[2K");
+			//rl_replace_line("exit\n", 0);
+			//rl_on_new_line();
+			printf("exit\n");
+			//rl_redisplay();
+			free(input);
+			exit(0);
+		}
+		if (ft_strcmp(input, "") == 0)
+        {
+            free(input);
+            continue;
+        }
 		add_history(input);
 		str = make_new_str(input);
 		if (str == NULL)
@@ -256,21 +272,9 @@ void	prompt(void)
 	}
 }
 
-void	sig_handler(int sig)
-{
-	(void)sig;
-	printf("\e[2K");
-	printf("minishell>\n");
-	rl_replace_line("", 0);
-	rl_redisplay();
-	//rl_on_new_line();
-}
-
 int	main()
 {
-	//prompt();
-	signal(SIGINT, sig_handler);
+	signal_handler();
 	prompt();
-	while(1);
 	system("leaks minishell");
 }

@@ -5,6 +5,7 @@ NAME=minishell
 SRC= main.c\
 	utils.c\
 	check_unexpected_token.c\
+	signal.c\
 
 OBJ= ${SRC:%.c=%.o}
 
